@@ -25,6 +25,7 @@ class Location
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $city;
 
@@ -32,6 +33,7 @@ class Location
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $state;
 
@@ -39,13 +41,15 @@ class Location
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $country;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      * @Serializer\Expose()
      * @Assert\NotBlank()
+     * @Assert\Type("int")
      * @Assert\Length(5)
      */
     private $zipCode;
@@ -54,6 +58,7 @@ class Location
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
      * @Assert\NotBlank()
+     * @Assert\Type("string")
      */
     private $address;
 
@@ -143,7 +148,7 @@ class Location
     }
 
     /**
-     * @return string
+     * @return integer
      */
     public function getZipCode()
     {
@@ -151,11 +156,11 @@ class Location
     }
 
     /**
-     * @param string $zipCode
+     * @param integer $zipCode
      *
      * @return Location
      */
-    public function setZipCode(string $zipCode): Location
+    public function setZipCode(int $zipCode): Location
     {
         $this->zipCode = $zipCode;
 
