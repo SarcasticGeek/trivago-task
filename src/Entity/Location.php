@@ -64,6 +64,7 @@ class Location
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="location")
+     * @Serializer\Exclude()
      */
     private $items = [];
 

@@ -20,6 +20,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "3.0.2",
+        "symfony/debug-pack": "^1.0",
         "symfony/maker-bundle": "^1.14",
         "symfony/web-server-bundle": "4.3.*"
     },
