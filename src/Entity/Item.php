@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Constant\ReputationBadge;
+use App\Validator\Constraints\ItemName;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\VirtualProperty;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
@@ -24,12 +25,18 @@ class Item
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @ItemName()
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
+     * @Assert\Type("int")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 5
+     * )
      */
     private $rating;
 
@@ -42,24 +49,32 @@ class Item
     /**
      * @ORM\Column(type="text")
      * @Serializer\Expose()
+     * @Assert\Url()
      */
     private $image;
 
     /**
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
+     * @Assert\Type("int")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 1000
+     * )
      */
     private $reputation;
 
     /**
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
+     * @Assert\Type("int")
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
+     * @Assert\Type("int")
      */
     private $availability;
 
@@ -71,7 +86,7 @@ class Item
 
     /**
      * @var string $reputationBadge
-     * @VirtualProperty()
+     * @Serializer\SerializedName("reputationBadge")
      */
     private $reputationBadge = ReputationBadge::GREEN;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LocationRepository")
@@ -16,36 +17,43 @@ class Location
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $state;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @Assert\NotBlank()
+     * @Assert\Length(5)
      */
     private $zipCode;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $address;
 
