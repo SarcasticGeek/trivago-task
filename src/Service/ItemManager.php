@@ -5,14 +5,22 @@ namespace App\Service;
 use App\Entity\Item;
 use App\Entity\Location;
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ItemManager implements ItemManagerInterface
 {
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private $serializer;
+
+    private $validator;
+
+    public function __construct(EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator)
     {
         $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
+        $this->validator = $validator;
     }
 
     public function getAll(): array
@@ -32,7 +40,7 @@ class ItemManager implements ItemManagerInterface
         return true;
     }
 
-    public function create(array $data): Item
+    public function create(array $data)
     {
         $item = new Item();
         $item
@@ -46,15 +54,27 @@ class ItemManager implements ItemManagerInterface
             ->setLocation($this->entityManager->getReference(Location::class, $data['locationId']))
         ;
 
+        $errors = $this->validator->validate($item);
+
+        if(count($errors) > 0) {
+            return $errors;
+        }
+
         $this->entityManager->persist($item);
         $this->entityManager->flush();
 
         return $item;
     }
 
-    public function update(Item $item, array $data): Item
+    public function update(Item $item, string $data): Item
     {
-        // TODO: Implement update() method.
+        /** @var Item $deserializedItem */
+        $deserializedItem = $this->serializer->deserialize($data, Item::class, 'json');
+
+        $this->entityManager->persist($deserializedItem);
+        $this->entityManager->flush();
+
+        return $deserializedItem;
     }
 
     private function getItemRepo()

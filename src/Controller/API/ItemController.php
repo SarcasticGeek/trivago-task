@@ -69,11 +69,11 @@ class ItemController extends FOSRestController
     {
         $item = $itemManager->create($request->query->all());
 
-        if ($item) {
+        if ($item instanceof Item) {
             return new Response($serializer->serialize($item, 'json'), Response::HTTP_CREATED);
         }
 
-        return new Response([], Response::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response($item, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -95,7 +95,7 @@ class ItemController extends FOSRestController
      */
     public function updateOne(Item $item, Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
-        $item = $itemManager->update($item, $request->query->all());
+        $item = $itemManager->update($item, $request->getContent());
 
         if ($item) {
             return new Response($serializer->serialize($item, 'json'), Response::HTTP_OK);

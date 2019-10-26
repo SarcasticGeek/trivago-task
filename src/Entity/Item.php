@@ -81,14 +81,9 @@ class Item
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="items")
      * @Serializer\Expose()
+     * @Assert\NotBlank()
      */
     private $location;
-
-    /**
-     * @var string $reputationBadge
-     * @Serializer\SerializedName("reputationBadge")
-     */
-    private $reputationBadge = ReputationBadge::GREEN;
 
     /**
      * @return integer
@@ -272,25 +267,17 @@ class Item
 
     /**
      * @return string
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("reputationBadge")
      */
     public function getReputationBadge(): string
     {
-        return $this->reputationBadge;
-    }
-
-    /**
-     * @return Item
-     */
-    public function setReputationBadge(): Item
-    {
         if ($this->getReputation() <= 500) {
-            $this->reputationBadge = ReputationBadge::RED;
+            return ReputationBadge::RED;
         } elseif ($this->getReputation() <= 799) {
-            $this->reputationBadge = ReputationBadge::YELLOW;
+            return ReputationBadge::YELLOW;
         } else {
-            $this->reputationBadge = ReputationBadge::GREEN;
+            return ReputationBadge::GREEN;
         }
-
-        return $this;
     }
 }

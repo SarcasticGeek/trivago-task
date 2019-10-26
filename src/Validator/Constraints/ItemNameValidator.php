@@ -2,8 +2,7 @@
 
 namespace App\Validator\Constraints;
 
-
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -25,7 +24,7 @@ class ItemNameValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        if(preg_match('/(Free|Offer|Book|Website|free|offer|book|website)/', $value)) {
+        if(preg_match('/(Free|Offer|Book|Website|free|offer|book|website)/', $value) || strlen($value) < 10) {
             $this
                 ->context
                 ->buildViolation($constraint->message)
