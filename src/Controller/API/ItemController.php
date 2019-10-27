@@ -22,13 +22,23 @@ use Symfony\Component\HttpFoundation\Response;
 class ItemController extends FOSRestController
 {
     /**
+     * @param Request $request
      * @param ItemManagerInterface $itemManager
      * @param SerializerInterface $serializer
      * @return Response
      * @Rest\Get("/")
+     * @Rest\QueryParam(name="rating", requirements="\d+", description="filter by rating.")
+     * @Rest\QueryParam(name="city", description="filter by city.")
+     * @Rest\QueryParam(name="reputationBadge", description="filter by reputationBadge.")
+     * @Rest\QueryParam(name="availabilityMoreThan", requirements="\d+", description="filter by availabilityMoreThan.")
+     * @Rest\QueryParam(name="availabilityLessThan", requirements="\d+", description="filter by availabilityLessThan.")
+     * @Rest\QueryParam(name="category", description="filter by category.")
      */
-    public function getAll(ItemManagerInterface $itemManager, SerializerInterface $serializer)
+    public function getAll(Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
+        if (count($request->query->all())) {
+            return new Response($serializer->serialize($itemManager->findBy($request->query->all()), 'json'));
+        }
         $items = $serializer->serialize($itemManager->getAll(), 'json');
 
         return new Response($items);

@@ -77,6 +77,31 @@ paths:
       operationId: "getAllItems"
       produces:
       - "application/json"
+      parameters:
+      - in: "query"
+        name: "rating"
+        type: integer
+        description: "Filter By Rating"
+      - in: "query"
+        name: "city"
+        type: string
+        description: "Filter By City"
+      - in: "query"
+        name: "reputationBadge"
+        type: string
+        description: "Filter By reputation badge"
+      - in: "query"
+        name: "category"
+        type: string
+        description: "Filter By category [hotel, alternative, hostel, lodge, resort, guest-house]"
+      - in: "query"
+        name: "availabilityMoreThan"
+        type: integer
+        description: "Filter By availability of more than X"
+      - in: "query"
+        name: "availabilityLessThan"
+        type: integer
+        description: "Filter By availability of less than X"
       description: Returns all items"
       responses:
         200:

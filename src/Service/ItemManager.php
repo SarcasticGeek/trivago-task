@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Item;
 use App\Entity\Location;
+use App\Repository\ItemRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -110,6 +111,11 @@ class ItemManager implements ItemManagerInterface
         $this->entityManager->flush();
 
         return ['item' => $item];
+    }
+
+    public function findBy(array $filters): array
+    {
+        return $this->getItemRepo()->search($filters);
     }
 
     /**
