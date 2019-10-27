@@ -1,0 +1,199 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Trivago Task"
+  contact:
+    email: "mohamedessamfathalla@gmail.com"
+host: "localhost:8888"
+basePath: "/api"
+tags:
+- name: "item"
+schemes:
+- "http"
+paths:
+  /item:
+    post:
+      tags:
+      - "item"
+      summary: "Add a new Item"
+      description: ""
+      operationId: "addIetm"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "name"
+        type: string
+        description: "Name of the Item"
+        required: true
+      - in: "query"
+        name: "rating"
+        type: integer
+        minimum: 0
+        maximum: 5
+        description: "Rating of the Item"
+        required: true
+      - in: "query"
+        name: "category"
+        type: string
+        description: "Category of the Item: [hotel, alternative, hostel, lodge, resort, guest-house]"
+        required: true
+      - in: "query"
+        name: "image"
+        type: string
+        description: "Image Url of the Item"
+        required: true
+      - in: "query"
+        name: "reputation"
+        type: integer
+        minimum: 0
+        maximum: 1000
+        description: "Reputation of the Item"
+        required: true
+      - in: "query"
+        name: "availability"
+        type: integer
+        description: "Availability of the Item"
+        required: true
+      - in: "query"
+        name: "price"
+        type: integer
+        description: "Price of the Item"
+        required: true
+      - in: "query"
+        name: "locationId"
+        type: integer
+        description: "Location ID of the Item"
+        required: true
+      responses:
+        200:
+          description: "Item Object"
+        500:
+          description: "ErrorsInvalid input"
+    get:
+      tags:
+      - "item"
+      summary: "Get All Items"
+      operationId: "getAllItems"
+      produces:
+      - "application/json"
+      description: Returns all items"
+      responses:
+        200:
+          description: "array of Items"
+  /item/{itemId}:
+    get:
+      tags:
+      - "item"
+      summary: "Find Item by ID"
+      description: "Returns a single item"
+      operationId: "getItemById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "itemId"
+        in: "path"
+        description: "ID of item to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Item not found"
+    put:
+      tags:
+      - "item"
+      summary: "Updates a Item"
+      description: ""
+      operationId: "updateItem"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "itemId"
+        in: "path"
+        description: "ID of Item that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "query"
+        name: "rating"
+        type: integer
+        minimum: 0
+        maximum: 5
+        description: "Rating of the Item"
+      - in: "query"
+        name: "category"
+        type: string
+        description: "Category of the Item: [hotel, alternative, hostel, lodge, resort, guest-house]"
+      - in: "query"
+        name: "image"
+        type: string
+        description: "Image Url of the Item"
+      - in: "query"
+        name: "reputation"
+        type: integer
+        minimum: 0
+        maximum: 1000
+        description: "Reputation of the Item"
+      - in: "query"
+        name: "availability"
+        type: integer
+        description: "Availability of the Item"
+      - in: "query"
+        name: "price"
+        type: integer
+        description: "Price of the Item"
+      - in: "query"
+        name: "locationId"
+        type: integer
+        description: "Location ID of the Item"
+      responses:
+        200:
+          description: "Item Object"
+        500:
+          description: "Validation Errors"
+    delete:
+      tags:
+      - "item"
+      summary: "Deletes a Item"
+      description: ""
+      operationId: "deletePet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "itemId"
+        in: "path"
+        description: "Item id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Deleted"
+        404:
+          description: "Item not found"
+  /item/{petId}/book:
+    post:
+      tags:
+      - "item"
+      summary: "Book an item"
+      description: ""
+      operationId: "book"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "petId"
+        in: "path"
+        description: "ID of pet to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Booked or Not Available"

@@ -67,7 +67,7 @@ class ItemController extends FOSRestController
      */
     public function postOne(Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
-        $posted = $itemManager->create($this->convertRequestParametersToArray($request));
+        $posted = $itemManager->create($request->query->all());
 
         if (isset($posted['item']) &&  $posted['item'] instanceof Item) {
             return new Response($serializer->serialize($posted['item'], 'json'), Response::HTTP_CREATED);
@@ -96,7 +96,7 @@ class ItemController extends FOSRestController
     public function updateOne(Item $item, Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
 
-        $updated = $itemManager->update($item, $this->convertRequestParametersToArray($request));
+        $updated = $itemManager->update($item, $request->query->all());
 
         if (isset($updated['item']) && $updated['item'] instanceof Item) {
             return new Response($serializer->serialize($item, 'json'), Response::HTTP_OK);
@@ -135,21 +135,5 @@ class ItemController extends FOSRestController
         $booked = $bookService->book($item)? 'Booked' : 'Not Available';
 
         return new JsonResponse(['message' => $booked], Response::HTTP_OK);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
-    private function convertRequestParametersToArray(Request $request)
-    {
-        $parametersAsArray = [];
-
-        if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
-        }
-
-        return $parametersAsArray;
     }
 }
