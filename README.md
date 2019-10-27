@@ -22,9 +22,9 @@
 #### Steps 
 1. Clone the repo.
 2. copy env file `cp .env.dist .env` ,and edit your credentials of mysql database. 
-3. `composer install`
-4. run the first setup shell script `./firstSetup.sh`
-5. run server ` bin/console server:start`
+3. run `composer install`
+4. then run the first setup shell script `./firstSetup.sh`
+5. then run server ` bin/console server:start`
 
 Oh! you can find out the application in `http://localhost:8000`
 
@@ -32,16 +32,17 @@ Oh! you can find out the application in `http://localhost:8000`
 1. Clone the repo.
 2. copy env file `cp .env.dist .env` ,and edit your credentials of mysql database. 
 3. run `docker-compose build`
-4. run `docker-compose up -d`
-5. run `docker-compose run php composer install`
-6. run `docker-compose up`
+4. then run `docker-compose up -d`
+5. open sh inside docker container `docker-compose exec php sh`
+- 5.1. run `composer install`
+- 5.2. then run `sh firstSetup.sh`
+6. then run `docker-compose up`
 
 Oh! you can find out the application in `http://localhost:8888`
 
 ## Unit Testing
 
 - To run the unit test case ,run `bin/phpunit`
-- if you pre-setuped the application with docker ,run `docker-compose run php bin/phpunit`
 
 ## OpenAPI Spec
 - you can find out the api described as YAML file using SWAGGER `https://swagger.io/`
