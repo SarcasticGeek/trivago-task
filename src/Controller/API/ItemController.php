@@ -67,13 +67,13 @@ class ItemController extends FOSRestController
      */
     public function postOne(Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
-        $item = $itemManager->create($request->query->all());
+        $posted = $itemManager->create($request->query->all());
 
-        if ($item instanceof Item) {
-            return new Response($serializer->serialize($item, 'json'), Response::HTTP_CREATED);
+        if (isset($posted['item']) &&  $posted['item'] instanceof Item) {
+            return new Response($serializer->serialize($posted['item'], 'json'), Response::HTTP_CREATED);
         }
 
-        return new Response($item, Response::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response(isset($posted['errors'])? $posted['errors'] : [], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -95,13 +95,13 @@ class ItemController extends FOSRestController
      */
     public function updateOne(Item $item, Request $request, ItemManagerInterface $itemManager, SerializerInterface $serializer)
     {
-        $item = $itemManager->update($item, $request->getContent());
+        $updated = $itemManager->update($item, $request->query->all());
 
-        if ($item) {
+        if (isset($updated['item']) && $updated['item'] instanceof Item) {
             return new Response($serializer->serialize($item, 'json'), Response::HTTP_OK);
         }
 
-        return new Response([], Response::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response(isset($updated['errors'])? $updated['errors'] : [], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

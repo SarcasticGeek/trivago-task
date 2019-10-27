@@ -23,11 +23,18 @@ class ItemManager implements ItemManagerInterface
         $this->validator = $validator;
     }
 
+    /**
+     * @return array
+     */
     public function getAll(): array
     {
         return $this->getItemRepo()->findAll();
     }
 
+    /**
+     * @param Item $item
+     * @return bool
+     */
     public function deleteOne(Item $item): bool
     {
         if (!$item) {
@@ -40,7 +47,12 @@ class ItemManager implements ItemManagerInterface
         return true;
     }
 
-    public function create(array $data)
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function create(array $data): array
     {
         $item = new Item();
         $item
@@ -57,26 +69,52 @@ class ItemManager implements ItemManagerInterface
         $errors = $this->validator->validate($item);
 
         if(count($errors) > 0) {
-            return $errors;
+            return ['errors' => $errors];
         }
 
         $this->entityManager->persist($item);
         $this->entityManager->flush();
 
-        return $item;
+        return ['item' => $item];
     }
 
-    public function update(Item $item, string $data): Item
+    /**
+     * @param Item $item
+     * @param array $data
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function update(Item $item, array $data): array
     {
-        /** @var Item $deserializedItem */
-        $deserializedItem = $this->serializer->deserialize($data, Item::class, 'json');
+        $item
+            ->setName(isset($data['name'])? $data['name'] : $item->getName())
+            ->setRating(isset($data['rating'])? $data['rating'] : $item->getRating())
+            ->setCategory(isset($data['category'])? $data['category'] : $item->getCategory())
+            ->setImage(isset($data['image'])? $data['image'] : $item->getImage())
+            ->setReputation(isset($data['reputation'])? $data['reputation'] : $item->getReputation())
+            ->setAvailability(isset($data['availability'])? $data['availability'] : $item->getAvailability())
+            ->setPrice(isset($data['price'])? $data['price'] : $item->getPrice())
+            ->setLocation(
+                isset($data['locationId']) && $this->entityManager->getReference(Location::class, $data['locationId']) ?
+                    $this->entityManager->getReference(Location::class, $data['locationId']) : $item->getLocation()
+            )
+        ;
 
-        $this->entityManager->persist($deserializedItem);
+        $errors = $this->validator->validate($item);
+
+        if(count($errors) > 0) {
+            return ['errors' => $errors];
+        }
+
+        $this->entityManager->persist($item);
         $this->entityManager->flush();
 
-        return $deserializedItem;
+        return ['item' => $item];
     }
 
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     private function getItemRepo()
     {
         return $this->entityManager->getRepository(Item::class);
