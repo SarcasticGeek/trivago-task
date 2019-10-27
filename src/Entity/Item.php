@@ -41,7 +41,8 @@ class Item
     private $rating;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
+     * @Assert\Regex("/^(hotel|alternative|hostel|lodge|resort|guest-houses)$/")
      * @Serializer\Expose()
      */
     private $category;
@@ -146,7 +147,7 @@ class Item
     }
 
     /**
-     * @return integer
+     * @return string
      */
     public function getCategory()
     {
@@ -154,11 +155,11 @@ class Item
     }
 
     /**
-     * @param integer $category
+     * @param string $category
      *
      * @return Item
      */
-    public function setCategory(int $category): Item
+    public function setCategory(string $category): Item
     {
         $this->category = $category;
 
