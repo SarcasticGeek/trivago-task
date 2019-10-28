@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.1-fpm-alpine
 
 RUN apk update \
     && apk add  --no-cache git mysql-client curl libmcrypt libmcrypt-dev openssh-client icu-dev \
@@ -7,7 +7,7 @@ RUN apk update \
     && pecl install xdebug redis \
     && docker-php-ext-enable xdebug redis \
     && docker-php-source delete \
-    && docker-php-ext-install pdo_mysql soap intl zip \
+    && docker-php-ext-install pdo pdo_mysql soap intl zip \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_port=10000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
