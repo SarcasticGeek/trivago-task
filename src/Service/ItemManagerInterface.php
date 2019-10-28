@@ -13,4 +13,6 @@ interface ItemManagerInterface
     public function create(array $data): array;
 
     public function update(Item $item, array $data): array;
+
+    public function findBy(array $filters): array;
 }
