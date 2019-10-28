@@ -17,7 +17,6 @@ class Location
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Serializer\Expose()
-     * @Assert\NotBlank()
      */
     private $id;
 

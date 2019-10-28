@@ -36,6 +36,7 @@ Oh! you can find out the application in `http://localhost:8000`
 5. open sh inside docker container `docker-compose exec php sh`
 - 5.1. run `composer install`
 - 5.2. then run `sh firstSetup.sh`
+- 5.3. then exit
 6. then run `docker-compose up`
 
 Oh! you can find out the application in `http://localhost:8888`
@@ -43,6 +44,7 @@ Oh! you can find out the application in `http://localhost:8888`
 ## Unit Testing
 
 - To run the unit test case ,run `bin/phpunit`
+- To run the unit test case in docker machine,run `docker-compose exec php php bin/phpunit`
 
 ## OpenAPI Spec
 - you can find out the api described as YAML file using SWAGGER `https://swagger.io/`
