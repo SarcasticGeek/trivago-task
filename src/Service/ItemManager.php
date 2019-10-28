@@ -113,6 +113,10 @@ class ItemManager implements ItemManagerInterface
         return ['item' => $item];
     }
 
+    /**
+     * @param array $filters
+     * @return array
+     */
     public function findBy(array $filters): array
     {
         return $this->getItemRepo()->search($filters);
